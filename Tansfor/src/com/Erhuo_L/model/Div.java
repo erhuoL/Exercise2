@@ -40,13 +40,5 @@ public abstract class Div extends Layout{
 		for (Layout o : parts) {
 			o.pp(indent + TAB + TAB);
 		}
-		
-		if(tag == "VertDiv"){
-			VertDiv vd = new VertDiv();
-			vd.setInterval(interval);
-			vd.setWeights(weights);
-			vd.setParts(parts);
-			vd.paint(ctx, new Rectangle(0, 0, 1000, 600));
-		}
 	}
 }

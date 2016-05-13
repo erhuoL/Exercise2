@@ -4,7 +4,9 @@ import java.awt.*;
 
 public class PaintContext {
 	public final Graphics g;
-	public PaintContext(Graphics g){
+	public final String loc;
+	public PaintContext(Graphics g, String loc){
 		this.g = g;
+		this.loc = loc;
 	}
 }

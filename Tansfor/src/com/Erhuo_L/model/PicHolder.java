@@ -1,12 +1,13 @@
 package com.Erhuo_L.model;
 
 import java.awt.*;
+import java.io.File;
 
 import javax.swing.*;
 
 public class PicHolder extends Layout{
-	private  String src;
 	
+	private  String src;
 	
 	public String getSrc() {
 		return src;
@@ -16,18 +17,16 @@ public class PicHolder extends Layout{
 	}
 	
     public void paint(PaintContext context, Rectangle rect) {
-    	System.out.format("DrawPic '%s' in (%d, %d, %d, %d)\n", src, rect.x, rect.y, rect.width, rect.height);
+    	String path = new File(src).isAbsolute()
+    			? src : context.loc + File.separator + src;
+    	System.out.format("DrawPic '%s' in (%d, %d, %d, %d)\n", path, rect.x, rect.y, rect.width, rect.height);
     	
-    	 ImageIcon image = new ImageIcon(src);
-    	 	image.setImage(image.getImage().getScaledInstance(rect.width,rect.height,Image.SCALE_DEFAULT));
-    	 	JLabel label = new JLabel(image);
-    	 	JFrame p1 = new JFrame();
-    	 
-    	 	p1.getContentPane().add(label);
-    	 
-    	 	p1.setBounds(rect.x, rect.y, rect.width, rect.height);
-    	 	p1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	 	p1.setVisible(true);
+    	Graphics g = context.g;
+    	ImageIcon icon = new ImageIcon(path);
+		if (icon.getImageLoadStatus() == MediaTracker.COMPLETE) {
+			Image img = icon.getImage();
+			g.drawImage(img, rect.x, rect.y, rect.width, rect.height, null);
+		}
 	}
 
 	@Override

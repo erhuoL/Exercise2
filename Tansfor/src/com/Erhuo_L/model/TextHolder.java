@@ -1,6 +1,10 @@
 package com.Erhuo_L.model;
 
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,16 +40,15 @@ public class TextHolder extends Layout{
 	public void paint(PaintContext context, Rectangle rect){
     	System.out.format("DrawText '%s' in (%d, %d, %d, %d)\n", text, rect.x, rect.y, rect.width, rect.height);
     	
-    	JLabel label = new JLabel(text);
-    	JFrame p1 = new JFrame();
-   	 
-	 	p1.getContentPane().add(label);
-	 
-	 	p1.setBounds(rect.x, rect.y, rect.width, rect.height);
-	 	p1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	 	p1.setVisible(true);
-    	
-    	
+    	Graphics g = context.g;
+    	// http://stackoverflow.com/questions/14284754/java-center-text-in-rectangle
+        FontMetrics fm = g.getFontMetrics();
+        Rectangle2D r = fm.getStringBounds(text, g);
+        
+        int x = rect.x + (rect.width - (int) r.getWidth()) / 2;
+        int y = rect.y + (rect.height - (int) r.getHeight()) / 2 + fm.getAscent();
+        
+		g.drawString(text, x, y);
     }
 	
 	@Override
